@@ -22,7 +22,8 @@ public class FreizeitbaederControl {
 				model.schreibFreizeitbaederInCsvDatei();
 			}
 			else {
-			view.zeigeInformationsfensterAn("noch nicht implementiert");	
+			//view.zeigeInformationsfensterAn("noch nicht implementiert");	
+			model.schreibFreizeitbaederInTxtDatei();
 			}
 			
 		}catch(IOException exc) {
