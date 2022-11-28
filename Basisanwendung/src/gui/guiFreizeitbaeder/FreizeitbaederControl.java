@@ -1,19 +1,21 @@
-package gui;
+package gui.guiFreizeitbaeder;
 
 import java.io.IOException;
 
+import MyObserver.MyObserver;
 import business.FreizeitbadModel;
 import javafx.stage.Stage;
 
-public class FreizeitbaederControl {
+public class FreizeitbaederControl implements MyObserver {
 	
 	private  FreizeitbaederView view ;
 	private FreizeitbadModel model ;
 	
 	
 	public FreizeitbaederControl(Stage primarystage) {
-		model = new FreizeitbadModel();
+		model = model.getIntanz();
 		view = new FreizeitbaederView(this ,primarystage,model);
+		model.addObserver(this);
 		
 	}
 	void schreibeFreizeitbaederInDatei(String typ) {
@@ -33,5 +35,9 @@ public class FreizeitbaederControl {
 			
 		}
 		
+	}
+	@Override
+	public void update() {
+		view.zeigeFreizeitbaederAn();
 	}
 }

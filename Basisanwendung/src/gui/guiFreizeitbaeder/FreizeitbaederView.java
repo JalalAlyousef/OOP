@@ -1,4 +1,4 @@
-package gui;
+package gui.guiFreizeitbaeder;
 
 import business.Freizeitbad;
 import business.FreizeitbadModel;
@@ -127,6 +127,7 @@ public class FreizeitbaederView {
         	    nehmeFreizeitbadAuf();
             }
 	    });
+	  
 	    btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
 	    	@Override
 	        public void handle(ActionEvent e) {
@@ -158,14 +159,14 @@ public class FreizeitbaederView {
    	            txtGeoeffnetBis.getText(),
     		    txtBeckenlaenge.getText(),
     		    txtWassTemperatur.getText()));
-    		zeigeInformationsfensterAn("Das Freizeitbad wurde aufgenommen!");
+    		//zeigeInformationsfensterAn("Das Freizeitbad wurde aufgenommen!");
        	}
        	catch(PlausiException exc){
        		zeigeFehlermeldungsfensterAn(exc.getPlausiTyp() + "er ", exc.getMessage());
      	}
     }
    
-    private void zeigeFreizeitbaederAn(){
+    public void zeigeFreizeitbaederAn(){
     	if(model.getFreizeitbad() != null){
     		txtAnzeige.setText(
     			model.getFreizeitbad().gibFreizeitbadZurueck(' '));
