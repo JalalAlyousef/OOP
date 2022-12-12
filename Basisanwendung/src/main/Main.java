@@ -8,8 +8,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-	@Override
-	public void start(Stage primaryStage) {
+	@Override	public void start(Stage primaryStage) {
 		new FreizeitbaederControl(primaryStage);
 		
 		Stage fesnterSport=new Stage();

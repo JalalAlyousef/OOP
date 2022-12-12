@@ -1,4 +1,0 @@
-Daten des Freizeitbades
- Name des Freizeitbades	Jalal
-öffnungszeit des Freizeitbades:	 1.0 2.0
-Beckenlänge des Freizeitbades:	3nwassertemperatur des Freizeitbades:	22

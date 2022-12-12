@@ -134,6 +134,7 @@ public class FreizeitbaederView {
 	            zeigeFreizeitbaederAn();
 	        } 
    	    });  
+	    /*
 	    mnItmCsvExport.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -147,13 +148,15 @@ public class FreizeitbaederView {
 				public void handle(ActionEvent event) {
 					schreibeFreizeitvaederInDatei("txt");
 				}
-			});
+			});*/
+	    mnItmCsvExport.setOnAction(e ->schreibeFreizeitvaederInDatei("csv") );
+	    mnItmTxtExport.setOnAction(e -> schreibeFreizeitvaederInDatei("txt")) ;
 	    
     }
     
     private void nehmeFreizeitbadAuf(){
     	try{
-    		model.setFreizeitbad(  new Freizeitbad(
+    		model.addFreizeitbad(  new Freizeitbad(
     			txtName.getText(), 
    	            txtGeoeffnetVon.getText(),
    	            txtGeoeffnetBis.getText(),
@@ -167,10 +170,18 @@ public class FreizeitbaederView {
     }
    
     public void zeigeFreizeitbaederAn(){
-    	if(model.getFreizeitbad() != null){
-    		txtAnzeige.setText(
-    			model.getFreizeitbad().gibFreizeitbadZurueck(' '));
+    	if(model.getFreizeitbad().size() > 0 )
+    	{
+    		StringBuffer text = new StringBuffer();
+    		for(Freizeitbad fzb:model.getFreizeitbad()) {
+    		text.append(fzb.gibFreizeitbadZurueck(' ') + "\n");
+    		
+    		
+    		}
+    		txtAnzeige.setText(text.toString());
+    		
     	}
+    	
     	else{
     		zeigeInformationsfensterAn("Bisher wurde kein Freizeitbad aufgenommen!");
     	}
