@@ -1,7 +1,9 @@
 package gui.guiSportstaetten;
 
 import business.Freizeitbad;
-import business.FreizeitbadModel;
+import businessFreizeitbad.FreizeitbadModel;
+import businessSporthallen.Sporthalle;
+import businessSporthallen.SporthallenModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -17,9 +19,10 @@ import ownUtil.MeldungsfensterAnzeiger;
 
 public class SportstaettenView {
 
-	private FreizeitbadModel model;
-	private SportstaettenControl control;
-
+	private FreizeitbadModel modelFreizeitbad;
+	private SportstaettenControl Sportcontrol;
+	private SporthallenModel sportModel;
+	
 	private Pane pane = new Pane();
 
 	private Label lblAnzeige = new Label("Anzeige");
@@ -28,18 +31,27 @@ public class SportstaettenView {
 	private TextArea txtAnzeige = new TextArea();
 
 	private Button btnAnzeige = new Button("Anzeige");
+	
+	private Label lblAnzeigeSporthalle = new Label("Anzeige Sporthallen");
+	private TextField txtNameSporthalle = new TextField();
 
-	public SportstaettenView(SportstaettenControl control, Stage primaryStage, FreizeitbadModel model) {
-		this.control = control;
-		this.model = model;
+	private TextArea txtAnzeigeSporthalle  = new TextArea();
+	private Button btnAnzeigeSporthalle = new Button("csv-Import und Anzeige");
 
+
+
+	public SportstaettenView(SportstaettenControl control, Stage primaryStage, FreizeitbadModel model,SporthallenModel sportModel) {
+		this.Sportcontrol = control;
+		this.modelFreizeitbad = model;
+		this.sportModel=sportModel;
 		Scene scene = new Scene(this.pane, 560, 340);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Anzeige von Sportstaetten");
 		primaryStage.show();
 		this.initKomponenten();
-		this.initListener();
-
+		this.initListenerFreizeitbad();
+		this.initKomponentenSporthallen();
+		this.initListenerSporthallen();
 	}
 
 	private void initKomponenten() {
@@ -68,21 +80,51 @@ public class SportstaettenView {
 		pane.getChildren().addAll(btnAnzeige);
 
 	}
+	
+	public void initKomponentenSporthallen()  {
+		Font font = new Font("Arial", 24);
+		lblAnzeigeSporthalle.setLayoutX(20);
+		lblAnzeigeSporthalle.setLayoutY(40);
+		lblAnzeigeSporthalle.setFont(font);
+		lblAnzeigeSporthalle.setStyle("-fx-font-weight: bold;");
 
-	private void initListener() {
+		pane.getChildren().addAll(lblAnzeigeSporthalle);
+		
+		txtAnzeigeSporthalle.setEditable(false);
+		txtAnzeigeSporthalle.setLayoutX(20);
+		txtAnzeigeSporthalle.setLayoutY(90);
+		txtAnzeigeSporthalle.setPrefWidth(220);
+		txtAnzeigeSporthalle.setPrefHeight(185);
+		pane.getChildren().add(txtAnzeigeSporthalle);
+		
+		btnAnzeigeSporthalle.setLayoutX(20);
+		btnAnzeigeSporthalle.setLayoutY(290);
+		pane.getChildren().addAll(btnAnzeigeSporthalle);
+	}
+
+	private void initListenerFreizeitbad() {
 		btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				zeigeFreizeitbaederAn();
 			}
 		});
+	
 
 	}
-
+	private void initListenerSporthallen() {
+		btnAnzeigeSporthalle.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				zeigeSporthallenAn();
+			}
+		});
+	}
 	public void zeigeFreizeitbaederAn() {
-		if (model.getFreizeitbad().size() > 0) {
+	
+		if (modelFreizeitbad.getFreizeitbad().size() > 0) {
 			StringBuffer text = new StringBuffer();
-			for (Freizeitbad fzb : model.getFreizeitbad()) {
+			for (Freizeitbad fzb : modelFreizeitbad.getFreizeitbad()) {
 				text.append(fzb.gibFreizeitbadZurueck(' ') + "\n");
 			}
 			txtAnzeige.setText(text.toString());
@@ -90,6 +132,20 @@ public class SportstaettenView {
 			zeigeInformationsfensterAn("Bisher wurde kein Freizeitbad aufgenommen!");
 		}
 	}
+
+	public void zeigeSporthallenAn() {
+		Sportcontrol.leseSporthallenAusCsv();	
+		if (sportModel.getSporthalleList().size() > 0) {
+			StringBuffer text = new StringBuffer();
+			// Ergaenzen: for each – Schleife ueber ArrayList
+			for (Sporthalle sh : sportModel.getSporthalleList()){
+				text.append(sh.gibSporthalleZurueck(' ') + "\n");
+			}
+			this.txtAnzeigeSporthalle.setText(text.toString());
+		} else {
+			zeigeInformationsfensterAn("Bisher wurde kein Sporthallen aufgenommen!");
+		}
+	}	
 
 	void zeigeInformationsfensterAn(String meldung) {
 		new MeldungsfensterAnzeiger(AlertType.INFORMATION, "Information", meldung).zeigeMeldungsfensterAn();

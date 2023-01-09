@@ -3,7 +3,7 @@ package gui.guiFreizeitbaeder;
 import java.io.IOException;
 
 import MyObserver.MyObserver;
-import business.FreizeitbadModel;
+import businessFreizeitbad.FreizeitbadModel;
 import javafx.stage.Stage;
 
 public class FreizeitbaederControl implements MyObserver {

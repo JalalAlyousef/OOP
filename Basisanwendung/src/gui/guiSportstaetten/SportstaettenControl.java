@@ -1,20 +1,36 @@
 package gui.guiSportstaetten;
 
+import java.io.IOException;
+
 import MyObserver.MyObserver;
-import business.FreizeitbadModel;
+import businessFreizeitbad.FreizeitbadModel;
+import businessSporthallen.SporthallenModel;
 import javafx.stage.Stage;
+import ownUtil.PlausiException;
 
 public class SportstaettenControl implements MyObserver {
-	private FreizeitbadModel model ;
-	private SportstaettenView view ;
-	
+	private FreizeitbadModel modelFreizeitbad ;
+	private SportstaettenView Sportview ;
+	private SporthallenModel sportModel;
 	
 	
 	
 	public SportstaettenControl(Stage stage) {
-		model= model.getIntanz();
-		view = new SportstaettenView(this,stage,model);
-		model.addObserver(this);
+		modelFreizeitbad= modelFreizeitbad.getIntanz();
+		sportModel=sportModel.getIntanz();
+		Sportview = new SportstaettenView(this,stage,modelFreizeitbad,sportModel);
+		modelFreizeitbad.addObserver(this);
+	}
+	
+	public void leseSporthallenAusCsv()  {
+		System.out.println("SportControl");
+
+		try {
+			sportModel.leseSporthalleAusCsv();
+		} catch (IOException | PlausiException e) {
+			// TODO Auto-generated catch block
+			Sportview.zeigeInformationsfensterAn("Fehler beim lesen aus der CSV Datei");		
+			}
 	}
 
 
@@ -23,7 +39,7 @@ public class SportstaettenControl implements MyObserver {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		view.zeigeFreizeitbaederAn();
+		Sportview.zeigeFreizeitbaederAn();
 		
 	}
 

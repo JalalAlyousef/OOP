@@ -1,4 +1,4 @@
-package business;
+package businessFreizeitbad;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -12,6 +12,7 @@ import FabrikMethode.Creator;
 import FabrikMethode.Product;
 import MyObserver.MyObservable;
 import MyObserver.MyObserver;
+import business.Freizeitbad;
 
 public class FreizeitbadModel implements MyObservable {
 	//private Freizeitbad freizeitbad ;
